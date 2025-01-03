@@ -27,6 +27,8 @@ const SignUp = () => {
     e.preventDefault()
     try{
         const response = await axios.post(BASE_URL + "/signup",formData)
+        console.log(response.data);
+        
         toast.success(response?.data)
         setFormData({firstName: "", lastName: "", emailId: "", password: "", photoUrl: "", gender: "", age: "", about: ""})
         navigate("/")
