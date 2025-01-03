@@ -9,8 +9,8 @@ import { BASE_URL } from "../utils/constant";
 
 const LoginPage = () => {
     const [formData,setFormData]= useState({
-        emailId : "bimal@gmail.com",
-        password : "Bimal@8055"
+        emailId : "",
+        password : ""
     }) 
 
     const dispatch = useDispatch();
@@ -24,14 +24,9 @@ const LoginPage = () => {
     const handleSubmit=async(e : React.FormEvent)=>{
         e.preventDefault();
         try{
-          // console.log(BASE_URL);
-          console.log(formData);
-          
           const response = await axios.post("http://localhost:4000/login", formData, {
             withCredentials: true,
           });
-            console.log(response.data);
-            
             dispatch(addUser(response.data))
             toast.success("Login Successful")
             navigate("/main")

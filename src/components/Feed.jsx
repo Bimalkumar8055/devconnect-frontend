@@ -28,7 +28,7 @@ const Feed = () => {
   const handleReview = async (status, userId) => {
     try{
       const response = await axios.post(BASE_URL + `/request/send/${status}/${userId}`,{},{withCredentials : true})
-      console.log(response.data);
+      console.log(response?.data);
       dispatch(removeUserFeed(userId))
     }catch(e){
       toast(e?.response?.data);
