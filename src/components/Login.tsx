@@ -24,7 +24,7 @@ const LoginPage = () => {
     const handleSubmit=async(e : React.FormEvent)=>{
         e.preventDefault();
         try{
-          const response = await axios.post("http://localhost:4000/login", formData, {
+          const response = await axios.post(BASE_URL +"/login", formData, {
             withCredentials: true,
           });
             dispatch(addUser(response.data))

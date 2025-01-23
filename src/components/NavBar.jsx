@@ -67,6 +67,9 @@ const NavBar = () => {
                 <Link to="/main/connection-requests">Request Received</Link>
               </li>
               <li className="hover:bg-indigo-600 rounded-lg">
+                <Link to="/main/premium">Premium Subscription</Link>
+              </li>
+              <li className="hover:bg-indigo-600 rounded-lg">
                 <button onClick={handleLogout}>Logout</button>
               </li>
             </ul>
