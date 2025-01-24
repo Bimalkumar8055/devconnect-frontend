@@ -15,9 +15,9 @@ const PremiumSubscription = () => {
     try {
       const response = await axios.get(BASE_URL + "/payment/verify/membership",{withCredentials : true});
       console.log(response);
-      if(response?.data?.isPremium){
+      if(response?.data?.data?.isPremium){
         setIsPremium(true);
-        setMembershipType(response?.data?.membershipType);
+        setMembershipType(response?.data?.data?.membershipType);
       }
     } catch (error) {
       console.log(error);
