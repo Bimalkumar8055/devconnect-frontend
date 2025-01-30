@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../../utils/socket";
+import { BASE_URL } from "../../utils/constant";
+import axios from "axios";
 
 const Chat = () => {
   const user = useSelector((store) => store.user);
@@ -12,6 +14,41 @@ const Chat = () => {
   const [messageInput, setMessageInput] = useState("");
   const [socket, setSocket] = useState(null);
   const chatContainerRef = useRef(null);
+
+  useEffect(()=>{
+    const fetchChat = async()=>{
+      try {
+        const response = await axios.get(BASE_URL + `/chats/${targetUserId}`,{withCredentials : true})
+        console.log(response?.data);
+        const chatData = response?.data?.data; // Corrected access
+
+        if (!chatData || !chatData.participants) {
+          console.error("Invalid chat data response:", response?.data);
+          return;
+        }
+        const otherParticipant = chatData.participants.find(id => id !== userId); 
+        const chats = chatData.messages.map(message => {
+          const isCurrentUser = userId === message?.senderId?._id;
+          return{
+            sender : isCurrentUser ? "frontEnd" : "backEnd",
+            name : message?.senderId?.firstName || "Unknown User",
+            userId : message?.senderId?._id,
+            targetUserId : otherParticipant,
+            content : message?.content,
+            time : message?.time,
+            seen : message?.seen
+          }
+        })
+        console.log(chats);
+        setMessages(chats);
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+    fetchChat()
+  },[targetUserId,userId])
 
   useEffect(() => {
     if (!userId || !targetUserId) return;
